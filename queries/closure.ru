@@ -5,17 +5,31 @@ PREFIX skos:       <http://www.w3.org/2004/02/skos/core#>
 PREFIX org:        <http://www.w3.org/ns/org#>
 
 INSERT {
-    ?i a ?c .
-} WHERE {
-    ?sc rdfs:subClassOf+ ?c .
-    ?i a ?sc .
-};
-
-INSERT {
     ?x ?p ?y .
 } WHERE {
     ?sp rdfs:subPropertyOf+ ?p .
     ?x ?sp ?y .
+};
+
+INSERT {
+    ?i a ?c .
+} WHERE {
+    ?p rdfs:domain ?c .
+    ?i ?p ?x .
+};
+
+INSERT {
+    ?i a ?c .
+} WHERE {
+    ?p rdfs:range ?c .
+    ?x ?p ?i .
+};
+
+INSERT {
+    ?i a ?c .
+} WHERE {
+    ?sc rdfs:subClassOf+ ?c .
+    ?i a ?sc .
 };
 
 INSERT {

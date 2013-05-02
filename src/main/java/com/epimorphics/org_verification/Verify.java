@@ -67,6 +67,7 @@ public class Verify {
         Model result = ModelFactory.createModelForGraph( graphStore.getDefaultGraph() );
         result.setNsPrefixes(model);
         model = result;
+//        model.write(System.out, "Turtle");
     }
 
     protected void displayQueryResult(ResultSet results) {
@@ -152,8 +153,10 @@ public class Verify {
     }
 
     public static void main(String[] args) {
-        String test = "data/sample1.ttl";
-        Verify verify = new Verify( FileManager.get().loadModel(test) );
+        Model data = FileManager.get().loadModel("data/sample1.ttl");
+//        Model data = FileManager.get().loadModel("data/140143.ttl");
+//        data.add( FileManager.get().loadModel("data/hospital.rdfs") );
+        Verify verify = new Verify( data );
         verify.runQueries();
     }
 
