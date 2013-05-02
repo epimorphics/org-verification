@@ -1,1 +1,9 @@
-target/
+*~
+.#*
+/target
+/.classpath
+/.settings
+/.project
+/generated
+/runtime
+/work

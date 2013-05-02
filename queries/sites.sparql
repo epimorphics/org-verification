@@ -1,0 +1,28 @@
+# List all sites of a given organization
+
+PREFIX rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:       <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:        <http://www.w3.org/2002/07/owl#>
+PREFIX skos:       <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:        <http://purl.org/dc/terms/>
+PREFIX vcard:      <http://www.w3.org/2006/vcard/ns#>
+PREFIX org:        <http://www.w3.org/ns/org#>
+
+SELECT * WHERE {
+    $org org:hasSite ?site .
+    OPTIONAL {
+       $org org:hasPrimarySite ?site .
+       BIND (true AS ?isPrimarySite)
+    }
+    OPTIONAL {
+       $org org:hasRegisteredSite ?site .
+       BIND (true AS ?isRegisteredSite)
+    }
+    OPTIONAL {
+        ?site org:siteAddress ?address .
+        OPTIONAL { ?address vcard:fn  ?sitename }
+        OPTIONAL { ?address vcard:tel / rdf:value ?telephone }
+        OPTIONAL { ?address vcard:adr / vcard:street-address ?street }
+        OPTIONAL { ?address vcard:adr / vcard:locality ?locality }
+    }
+}

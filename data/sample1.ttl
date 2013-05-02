@@ -1,0 +1,113 @@
+@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:        <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:       <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf:       <http://xmlns.com/foaf/0.1/> .
+@prefix dct:        <http://purl.org/dc/terms/> .
+@prefix vcard:      <http://www.w3.org/2006/vcard/ns#> .
+@prefix prov:       <http://www.w3.org/ns/prov#> .
+@prefix vcard:      <http://www.w3.org/2006/vcard/ns#> .
+@prefix org:        <http://www.w3.org/ns/org#> .
+
+@prefix :        <http://example.com/sample1#> .
+
+# Organizations
+
+:org1 a org:FormalOrganization;
+    skos:prefLabel "Org 1";
+    org:hasUnit :unit1, :unit2 ;
+    .
+
+:unit1 a org:OrganizationalUnit;
+    skos:prefLabel "Unit 1";
+    org:hasRegisteredSite :site1;
+    .
+
+:unit2 a org:OrganizationalUnit;
+    skos:prefLabel "Unit 2";
+    .
+
+# Sites
+
+:site1 a org:Site ;
+    rdfs:label "Site 1";
+    org:siteAddress [
+        a vcard:VCard;
+        vcard:fn "Registered site for unit 1";
+        vcard:tel [ rdf:value "1234" ];
+        vcard:adr [ vcard:street-address "1 The Street"; vcard:locality "Our town"; vcard:postal-code "A1 42Z" ];
+    ]
+    .
+
+# Posts
+
+:assistantPost a org:Post;
+    rdfs:label "Post of assistant to unit1's manager";
+    org:postIn :unit1;
+    org:role   :assistant;
+    org:reportsTo :managerPost;
+    .
+
+:managerPost a org:Post;
+     rdfs:label "Post of manager of unit1";
+     org:postIn :unit1;
+     org:role   :manager;
+     .
+
+# Roles
+:manager a org:Role;
+    rdfs:label "Manager";
+    .
+
+:assistant a org:Role;
+    rdfs:label "Assistant";
+    .
+
+[] a org:Membership;
+    org:member :p1;
+    org:organization :unit1;
+    org:role  :manager;
+    .
+
+# People
+
+:boss1 a foaf:Person;
+    foaf:name "The Boss";
+    org:headOf :org1;
+    .
+
+:p2 a foaf:Person;
+    foaf:name "Person 2";
+    org:reportsTo :p1 ;
+    org:holds     :assistantPost;
+    .
+
+:p1 a foaf:Person;
+    foaf:name "Person 1";
+    org:reportsTo :boss1 ;
+    org:location "Mailstop 1/b";
+    .
+
+# Organizational history
+
+:unit1a a org:OrganizationalUnit;
+    skos:prefLabel "Unit 1a";
+    .
+
+:unit1b a org:OrganizationalUnit;
+    skos:prefLabel "Unit 1b";
+    .
+
+:merger1 a org:ChangeEvent;
+    rdfs:label "Unit merger";
+    org:originalOrganization :unit1a, :unit1b;
+    org:resultingOrganization :unit1 ;
+    .
+
+# Collaborations
+
+:initiative a org:OrganizationalCollaboration;
+    rdfs:label "Our cross-organizational initiative";
+    org:hasMember :unit1, :unit2;
+    .
