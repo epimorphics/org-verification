@@ -1,0 +1,6 @@
+ #render($row.site) #if($row.isPrimarySite)(primary site)#end #if($row.isRegisteredSite)(registered site)#end
+  #if($row.address && !$row.address.isAnon()) <strong>Address:</strong> #render($row.address, $upload)#end <br />
+  #cond("Name", $row.sitename, $upload)
+  #cond("Street", $row.street, $upload)
+  #cond("Locality", $row.locality, $upload)
+  #cond("Phone", $row.telephone, $upload)

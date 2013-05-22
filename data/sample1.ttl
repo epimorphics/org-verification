@@ -17,6 +17,8 @@
 :org1 a org:FormalOrganization;
     skos:prefLabel "Org 1";
     org:hasUnit :unit1, :unit2 ;
+    org:identifier "o1";
+    dct:description "This is the first dummy test organization";
     .
 
 :unit1 a org:OrganizationalUnit;

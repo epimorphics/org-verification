@@ -1,0 +1,16 @@
+
+  <div class="navbar navbar-fixed-top  navbar-inverse">
+    <div class="span1">
+    </div>
+    <div class="navbar-inner">
+      <ul class="nav">
+        <li class="active"><a href="upload">ORG verifier</a></li>
+      </ul>
+      <div class="span1"> </div>
+      <ul class="nav">
+        <li #if($nav=="upload")class="active"#end><a href="upload">upload</a></li>
+        <li #if($nav=="view")class="active"#end><a href="view">view</a></li>
+      </ul>
+
+    </div>
+  </div>

@@ -1,0 +1,104 @@
+## Global macros
+
+##Display a query result
+#macro(showResults $label, $query, $resource, $template)
+    <h3>$label</h3>
+    #set($started=false)
+    #foreach($row in $model.querySelectW($lib.app.getOrgQuery($query, $resource)))
+      <div class="result-blob">
+        <div class="blob-inner">
+         #parse($template)
+        </div>
+      </div>
+      #set($started=true)
+    #end
+    #if(!$started)
+      <p><em>None found</em></p>
+    #end
+#end
+
+## Show a value if it exists
+#macro(cond $label $value $upload)
+  #if($value)<strong>$label</strong>: #render($value, $upload)#end
+#end
+
+## Link to an orgnaization
+#macro(linkorg $org, $upload)
+  <a href="/org-view?upload=$upload&uri=$lib.pathEncode($org.uRI)">$org.name</a>
+#end
+
+## Determine the href value to use in a link to the given resource, reference URIs go external
+#macro(linkhref $res $upload)?upload=$upload&uri=$lib.pathEncode($res.uRI)#end
+
+## Inject a link to the given resource
+#macro(linkfor $res $upload)
+   <a href="#linkhref($res, $upload)" title="$res.uRI">$res.name</a>
+#end
+
+## Render a value either as a link (if a resource) or as a (trimmed) lexical form
+#macro(render $v $upload)
+      #if($v.isAnon())
+        []
+      #elseif($v.isResource())
+        #linkfor($v, $upload)
+      #else
+        $lib.escapeHtml($v.lexicalForm, 1000)
+      #end
+#end
+
+## Inject a plain link for a resource - no encoding or mapping to the host
+#macro(link $uri)
+  <a href="$uri">$uri</a>
+#end
+
+## Display a property value in the RDF browser
+#macro(resentry $v $upload)
+  #if($v.isList())
+    <ul>
+      #foreach($e in $v.asList())
+        <li>#resentry($e, $upload)</li>
+      #end
+    </ul>
+  #elseif($v.isAnon())
+    #restable($v, $upload)
+  #else
+    #render($v, $upload)
+  #end
+#end
+
+## Display a set of property/value pairs in the RDF browser
+#macro(restable $res $upload)
+  <table class="table table-condensed table-bordered">
+##    <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <tbody>
+      #foreach($pv in $res.listProperties())
+        <tr>
+          <td> <strong title="$pv.getProp().uRI">$pv.getProp().name</strong> </td>
+          <td>
+            #foreach($v in $pv.getValues())
+              #if($v.isList())
+                  (#foreach($e in $v.asList())#resentry($e, $upload)#if( $foreach.hasNext ), #end#end)
+              #elseif($v.isAnon())
+                #restable($v, $upload)
+              #else
+                #resentry($v, $upload)
+              #end
+              #if( $foreach.hasNext )|#end
+              #if( $foreach.count > 8 ) ... #break #end
+            #end
+            <br />
+          </td>
+        </tr>
+      #end
+    </tbody>
+  </table>
+
+#end
+
+## Debug utility to display the roots of a model
+#macro(showmodel $model $upload)
+  #foreach($root in $model.listSubjects())
+    <h4>Root: $root.uRI</h4>
+    #restable($root, $upload)
+  #end
+#end

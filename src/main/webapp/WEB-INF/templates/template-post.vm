@@ -1,0 +1,4 @@
+  #render($row.post)  <br/>
+  #cond("Role", $row.postRole, $upload)
+  #cond("Reports to", $row.reportsTo, $upload)
+  #cond("Held by", $row.postHolder, $upload)

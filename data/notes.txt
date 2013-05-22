@@ -1,0 +1,4 @@
+Sample upload:
+
+http://localhost:8080/view?upload=upload-2013-05-22T15-09-16-0
+

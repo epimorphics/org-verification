@@ -1,0 +1,4 @@
+  #render($row.member) #if($row.isHeadOf)(is a head)#end <br/>
+  #cond("Role", $row.role, $upload)
+  #cond("Reports to", $row.reportsTo, $upload)
+  #cond("Location", $row.location, $upload)

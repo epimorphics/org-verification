@@ -1,0 +1,66 @@
+#parse("header.vm")
+#set($nav="view")
+#parse("navbar.vm")
+
+#if($upload)
+  #set($model = $lib.app.getUpload($upload))
+  #if($model)
+    #if($uri)
+      #set($resource=$model.getNode($uri))
+
+      <div class="row">
+        <div class="offset3 span9">
+          <h3>View resource: #render($resource)</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span3">
+          <div class="label label-info">
+            Organizations
+          </div>
+          <p><a href="/view?upload=$upload">Back to top level view</a></p>
+          #set($orglist = $model.querySelectW("SELECT * WHERE {?org a org:Organization } ORDER BY ?org"))
+          <ul>
+            #foreach($row in $orglist)
+              <li>#linkorg($row.org, $upload)</li>
+            #end
+          </ul>
+        </div>
+        <div class="span9">
+          #if($raw || !$resource.hasResourceValue("rdf:type", "org:Organization"))
+            #restable($resource, $upload)
+          #else
+            <p>Show <a href="/org-view?upload=$upload&uri=$lib.pathEncode($uri)&raw=true">raw view</a></p>
+
+            #showResults("Sub organizations", "suborgs.sparql", $resource, "template-suborg.vm")
+            #showResults("Sites", "sites.sparql", $resource, "template-sites.vm")
+            #showResults("Members", "members.sparql", $resource, "template-member.vm")
+            #showResults("Posts", "posts.sparql", $resource, "template-post.vm")
+            #showResults("Collaborations", "collaboration.sparql", $resource, "template-collaboration.vm")
+            #showResults("Change events", "change.sparql", $resource, "template-change.vm")
+
+          #end
+        </div>
+      </div>
+
+    #else
+
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Failed</strong> No orgnization URI supplied
+        </div>
+
+    #end
+  #else
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Failed</strong> Could not retrieve uploaded data
+        </div>
+  #end
+
+#else
+  <p>No data specified, please <a href="upload">upload</a> samples first.</p>
+#end
+
+
+#parse("footer.vm")

@@ -1,0 +1,55 @@
+#parse("header.vm")
+#set($nav="view")
+#parse("navbar.vm")
+
+<h1>View test data</h1>
+
+<p>Browse to sample organizations to see more details on them.</p>
+
+#if($upload)
+  #set($model = $lib.app.getUpload($upload))
+  #if($model)
+    #if($uri)
+
+      ## Resource view
+      #set($resource=$model.getNode($uri))
+      <h3>Resource: #render($resource)</h3>
+      <p><strong>URI:</strong> $resource.uRI</p>
+      #restable($resource, "table-condensed table-bordered")
+
+    #else
+
+      ## Top level view
+      #set($orglist = $model.querySelectW("SELECT * WHERE {?org a org:Organization .  OPTIONAL {?org skos:prefLabel ?prefLabel} OPTIONAL {?org rdfs:label ?label}  OPTIONAL {?org dct:description ?description}  OPTIONAL {?org org:identifier ?identifier}  OPTIONAL {?org org:classification ?classification}}"))
+      #foreach($row in $orglist)
+          <div class="result-blob">
+            <div class="blob-inner">
+              <div>
+                <strong>Organization:</strong> #linkorg($row.org, $upload)
+              </div>
+              <div>
+                #cond("Label", $row.label, $upload)
+                #cond("Preflabel", $row.prefLabel, $upload)
+                #cond("Identifier", $row.identifier, $upload)
+                #cond("Classification", $row.classification, $upload)
+              </div>
+              #if($row.description)
+                <em>$row.description</em>
+              #end
+            </div>
+          </div>
+      #end
+    #end
+
+  #else
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Failed</strong> Could not retrieve uploaded data
+        </div>
+  #end
+#else
+  <p>No data specified, please <a href="upload">upload</a> samples first.</p>
+#end
+
+
+#parse("footer.vm")

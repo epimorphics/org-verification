@@ -1,0 +1,1 @@
+ #render($row.subOrganization) #if($row.isUnitOf)(is a unit of)#end

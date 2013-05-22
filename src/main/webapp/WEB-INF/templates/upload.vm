@@ -1,0 +1,21 @@
+#parse("header.vm")
+#set($nav="upload")
+#parse("navbar.vm")
+
+<h1>Upload a test file</h1>
+
+<p>Select files to upload. Multiple files may be selected.</p>
+<p>If data uses extension terms then include the ontology for those terms in the files uploaded</p>
+
+    <form class="upload-form" action="/request/upload" method="post" enctype="multipart/form-data">
+      <label>
+        Choose files:
+        <input type="file" name="file" multiple />
+      </label>
+      <input type="hidden" name="action" value="upload" />
+      <button class="btn">Upload</button>
+    </form>
+
+## TODO get result of upload and redirect to view on that
+
+#parse("footer.vm")

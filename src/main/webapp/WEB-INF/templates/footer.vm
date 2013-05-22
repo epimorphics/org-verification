@@ -1,0 +1,11 @@
+    <hr id="footer-line" />
+    <div class="row footer">
+     <div class="pull-right">Developed by <a href="mailto:dave@epimorphics.com">Dave Reynolds</a></div>
+    </div>
+   </div> <!-- End of container -->
+
+   <script type="text/javascript" src="$uiroot/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="$uiroot/js/jquery.dataTables.min.js"></script>
+   <script type="text/javascript" src="$uiroot/js/ui.js"></script>
+  </body>
+</html>

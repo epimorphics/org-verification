@@ -1,0 +1,2 @@
+ In #render($row.collaboration)
+ #if($row.partner) with #render($row.partner)#end

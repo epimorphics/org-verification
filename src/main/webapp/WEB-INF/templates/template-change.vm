@@ -1,0 +1,2 @@
+ Resulted from event #render($row.event)
+ #if($row.originalOrganization) <strong>original organzations</strong>: #render($row.originalOrganization)#end
