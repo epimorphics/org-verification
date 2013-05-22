@@ -1,4 +1,4 @@
 Sample upload:
 
 http://localhost:8080/view?upload=upload-2013-05-22T15-09-16-0
-
+http://gld01.w3.org/view?upload=upload-2013-05-22T15-39-45-0
