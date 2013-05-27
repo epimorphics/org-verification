@@ -1,0 +1,30 @@
+#parse("header.vm")
+#set($nav="qb-test")
+#parse("navbar.vm")
+
+<h2>2. Running checks over data</h2>
+
+#if($upload)
+
+  <table class="table table-bordered table-condensed" id="qb-result-table" data-upload="$upload">
+    <thead>
+      <tr>
+        <th>IC</th>
+        <th>Description</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  
+  <div class="hide space-above" id="qb-result-report">
+    Completed. Would you like to <a class="report" data-upload="$upload" href="mailto:public-gld-comments@w3.org?subject=[QB] Implementation report&body=I would like report a Data Cube implementation.%0D%0A%0D%0Ahttp://gld01.w3.org/qb-test?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you use any optional terms.">report</a> the results?
+  </div>
+
+#else
+  <p>No data specified, please <a href="upload">upload</a> samples first.</p>
+#end
+
+
+#parse("footer.vm")

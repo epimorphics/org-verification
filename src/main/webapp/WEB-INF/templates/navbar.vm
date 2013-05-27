@@ -4,12 +4,19 @@
     </div>
     <div class="navbar-inner">
       <ul class="nav">
-        <li class="active"><a href="upload">ORG verifier</a></li>
+        <li class="active"><a href="org-upload">GLD verifier</a></li>
       </ul>
       <div class="span1"> </div>
       <ul class="nav">
-        <li #if($nav=="upload")class="active"#end><a href="upload">upload</a></li>
-        <li #if($nav=="view")class="active"#end><a href="view">view</a></li>
+        <li #if($nav=="org-upload")class="active"#end><a href="org-upload">ORG upload</a></li>
+        #if($upload && ($nav == "org-view" || $nav == "org-report"))
+          <li #if($nav=="org-view")class="active"#end><a href="org-top-view?upload=$upload">ORG view</a></li>
+          <li #if($nav=="org-report")class="active"#end><a class="report"  data-upload="$upload" href="#reporthref($upload)">ORG report</a></li>
+        #end
+        <li #if($nav=="qb-upload")class="active"#end><a href="qb-upload">Data Cube upload</a></li>
+        #if($upload && ($nav == "org-view" || $nav == "qb-test"))
+          <li #if($nav=="qb-test")class="active"#end><a href="qb-test?upload=$upload">Data Cube Test</a></li>
+        #end
       </ul>
 
     </div>

@@ -29,7 +29,7 @@ public class DataFetch extends BaseEndpoint {
     @Produces({FULL_MIME_TURTLE, FULL_MIME_RDFXML})
     public Model getUpload(@PathParam("path") String path) {
         // Could make this streaming but no particular need to
-        Model model = ModelCache.get().getUpload(path);
+        Model model = Org.get().getUpload(path);
         if (model == null) {
             throw new NotFoundException(path);
         } else {

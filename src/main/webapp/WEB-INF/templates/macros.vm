@@ -1,5 +1,13 @@
 ## Global macros
 
+##Report ORG implementation
+#macro(reporthref $upload)
+mailto:public-gld-comments@w3.org?subject=[ORG] Implementation report&body=I would like report an ORG implementation.%0D%0A%0D%0Ahttp://gld01.w3.org/org-view?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you believe your use of ORG conforms to the specification.
+#end
+#macro(report $upload)
+  <a class="report" data-upload="$upload" href="#reporthref($upload)">report</a>
+#end
+
 ##Display a query result
 #macro(showResults $label, $query, $resource, $template)
     <h3>$label</h3>

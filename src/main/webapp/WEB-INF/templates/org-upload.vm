@@ -1,0 +1,59 @@
+#parse("header.vm")
+#set($nav="org-upload")
+#parse("navbar.vm")
+
+<h1>ORG Ontology tester</h1>
+    
+    <div class="alert">
+      This is a beta-release, please notify the <a href="mailto:public-gld-comments@w3.org">GLD working group</a> of any problems.
+    </div>
+
+<div class="row">
+  <div class="span8">
+    
+    <p>This site is provided by the <a href="http://www.w3.org/2011/gld/wiki/Main_Page">GLD Working Group</a> to 
+    assist with collecting implementation reports for the ORG ontology.</p>
+    
+    <p>It runs a set of <a href="http://www.w3.org/2011/gld/wiki/ORG_Validation_Suite">queries</a> over uploaded data,
+    allowing you to see what a consumer of your data might see if they tried to query it. 
+    If you run these queries on (a representative sample of) your data then you can see if the organizations 
+    and associated sub-organizations, sites, membership, posts and change events are found.
+     Of course, if your data doesn't include any information on some of these aspects (e.g. change events) 
+     then none will be found, that's fine - the point is to check that the information you do expect to be there is found.</p>
+    
+    <p>The steps are:</p>
+    <ol>
+     <li>upload data or a data sample,</li>
+     <li>browse the data via this viewer to confirm that the information you expect to be there is visible,</li>
+     <li>if all is as you expect then tell us about your implementation.</li>
+    </ol>
+    
+    <h2>1. Upload data</h2>
+    
+    <p>Please select one or more test files to upload.</p>
+    
+    <p>If your data uses some ORG terms via an extension ontology then please include the ontology in the uploaded files in order 
+    for the tool to perform the inferences necessary.<p>
+    
+    <div class="alert alert-info">
+      Uploads are limited to 5Mb. If your full data is larger than this choose a representative sample. <br />
+      If this is problematic please contact the Working Group.
+    </div>
+
+
+    <form class="upload-form" action="/request/upload" method="post" enctype="multipart/form-data" data-view="org-top-view">
+      <label>
+        Choose files:
+        <input type="file" name="file" multiple />
+      </label>
+      <input type="hidden" name="limit" value="5242880" />
+      <button class="btn">Upload</button>
+    </form>
+
+    <div class="ajax-error"></div>    
+
+  </div>
+  <div class="span4"></div> 
+</div> 
+
+#parse("footer.vm")

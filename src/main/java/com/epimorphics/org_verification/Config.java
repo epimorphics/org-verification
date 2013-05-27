@@ -9,6 +9,7 @@
 
 package com.epimorphics.org_verification;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -43,4 +44,22 @@ public class Config extends ServiceBase implements Service {
         return dirbase;
     }
 
+    public String getUploadDir(String upload) {
+        return String.format("%s/uploads/%s", getDirbase(), upload);
+    }
+
+    public String getPreservationDir(String upload) {
+        return String.format("%s/preserve/%s", getDirbase(), upload);
+    }
+    
+    public String getUploadFilename(String path) {
+        String filename = Config.get().getUploadDir(path) + "/merge.ttl";
+        if (!new File(filename).exists()) {
+            filename =  Config.get().getPreservationDir(path) + "/merge.ttl";
+            if (!new File(filename).exists()) {
+                return null;
+            }
+        }
+        return filename;
+    }
 }

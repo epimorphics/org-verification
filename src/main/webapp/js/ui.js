@@ -51,10 +51,11 @@ $(function() {
 
     $(".upload-form").each(function(){
         var form = $(this);
+        var view = form.attr('data-view');
         form. ajaxForm({
             success:
                 function(data, status, xhr){
-                    window.location.href = "/view?upload=" + data;
+                    window.location.href = "/" + view + "?upload=" + data;
                 },
 
             error:
@@ -62,6 +63,39 @@ $(function() {
                  $(".ajax-error").html("<div class='alert'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Action failed: " + error + " - " + xhr.responseText + "</div>");
               }
           });
+    });
+    
+    // Action on reporting
+    $(".report").click(function(){
+        $.post("/request/save?upload=" + $(this).attr('data-upload'));
+    });
+    
+    // Run QB integrity checks
+    $("#qb-result-table").each(function(){
+        var body = $(this).find("tbody");
+        var upload = $(this).attr('data-upload');
+        var checks = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19a', '19b', '20', '21'];
+        var next = function() {
+            if (checks.length > 0) {
+                $.getJSON("/request/validate?upload=" + upload + "&check=" + checks.shift(), function(datalist) {
+                    for (var i = 0; i < datalist.length; i++) {
+                        var data = datalist[i];
+                        body.append("<tr><td><a href='" + data.url + "'>" + data.ic + "</a></td><td>" + data.description + "</td><td><img src='" 
+                            + (data.passed ? "/img/tick-16.png" : "/img/fail-16.png")
+                            + "' alt='" + + (data.passed ? "passed" : "failed") 
+                            + "' /></td></tr>");
+                        if (!data.passed) {
+                            var reportLink = $("#qb-result-report a");
+                            reportLink.attr("href", reportLink.attr("href").replace(/-->/, "Failed " + data.ic + "%0D%0A%0D%0A-->"));
+                        }
+                    }
+                    next();
+                });
+            } else {
+                $("#qb-result-report").show();
+            }
+        };
+        next();
     });
 
 });

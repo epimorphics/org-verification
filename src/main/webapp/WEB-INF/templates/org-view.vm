@@ -1,6 +1,7 @@
 #parse("header.vm")
-#set($nav="view")
 #parse("navbar.vm")
+
+#set($LIMIT=200)
 
 #if($upload)
   #set($model = $lib.app.getUpload($upload))
@@ -18,13 +19,18 @@
           <div class="label label-info">
             Organizations
           </div>
-          <p><a href="/view?upload=$upload">Back to top level view</a></p>
-          #set($orglist = $model.querySelectW("SELECT * WHERE {?org a org:Organization } ORDER BY ?org"))
+          <p><a href="/org-top-view?upload=$upload">Back to top level view</a></p>
+          #set($query = "PREFIX org: <http://www.w3.org/ns/org#>  SELECT * WHERE {?org a org:Organization } ORDER BY ?org  LIMIT " + $LIMIT)
+          #set($orglist = $model.querySelectW($query))
           <ul>
             #foreach($row in $orglist)
               <li>#linkorg($row.org, $upload)</li>
             #end
           </ul>
+          #if($orglist.size() == $LIMIT)
+          <p>...</p>
+          <p>First $LIMIT organizations shown.</p>
+          #end
         </div>
         <div class="span9">
           #if($raw || !$resource.hasResourceValue("rdf:type", "org:Organization"))
@@ -47,7 +53,7 @@
 
         <div class="alert">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Failed</strong> No orgnization URI supplied
+          <strong>Failed</strong> No organization URI supplied
         </div>
 
     #end

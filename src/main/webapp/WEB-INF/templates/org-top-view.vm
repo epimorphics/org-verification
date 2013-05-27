@@ -1,10 +1,11 @@
 #parse("header.vm")
-#set($nav="view")
+#set($nav="org-view")
 #parse("navbar.vm")
 
-<h1>View test data</h1>
+<h2>2. Check the view of your data</h2>
 
-<p>Browse to sample organizations to see more details on them.</p>
+<p>Here is a list of organizations found in this data. Click them to see more details.
+  If the data looks right then please #report($upload) it.</p> 
 
 #if($upload)
   #set($model = $lib.app.getUpload($upload))
@@ -20,7 +21,8 @@
     #else
 
       ## Top level view
-      #set($orglist = $model.querySelectW("SELECT * WHERE {?org a org:Organization .  OPTIONAL {?org skos:prefLabel ?prefLabel} OPTIONAL {?org rdfs:label ?label}  OPTIONAL {?org dct:description ?description}  OPTIONAL {?org org:identifier ?identifier}  OPTIONAL {?org org:classification ?classification}}"))
+      #set($query = $lib.app.getQuery('listorg.sparql') + " LIMIT 1000")
+      #set($orglist = $model.querySelectW($query))
       #foreach($row in $orglist)
           <div class="result-blob">
             <div class="blob-inner">
@@ -38,6 +40,9 @@
               #end
             </div>
           </div>
+      #end
+      #if($orglist.size() == 1000)
+      <p>... showing first 1000 entries</p>
       #end
     #end
 

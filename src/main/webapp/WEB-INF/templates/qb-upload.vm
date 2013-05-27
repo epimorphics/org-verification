@@ -1,0 +1,48 @@
+#parse("header.vm")
+#set($nav="qb-upload")
+#parse("navbar.vm")
+
+<h1>Data Cube tester</h1>
+
+    
+    <div class="alert">
+      This is a beta-release, please notify the <a href="mailto:public-gld-comments@w3.org">GLD working group</a> of any problems.
+    </div>
+
+<div class="row">
+  <div class="span8">
+    
+    <p>This site is provided by the <a href="http://www.w3.org/2011/gld/wiki/Main_Page">GLD Working Group</a> to 
+    assist with collecting implementation reports for the Data Cube vocabulary.</p>
+    
+    <p>It runs the integrity checks <a href="http://www.w3.org/TR/vocab-data-cube/#wf-rules">integrity checks</a> over uploaded data.</p>
+
+    <h2>1. Upload data</h2>
+    
+    <p>Please select one or more test files to upload.</p>
+    
+    <p>If your data uses some Data Cube terms via an extension ontology then please include the ontology in the uploaded files in order 
+    for the tool to perform the inferences necessary.<p>
+    
+    <div class="alert alert-info">
+      Uploads are limited to 5Mb. If your full data is larger than this choose a representative sample. <br />
+      If this is problematic please contact the Working Group.
+    </div>
+
+
+    <form class="upload-form" action="/request/upload" method="post" enctype="multipart/form-data" data-view="qb-test">
+      <label>
+        Choose files:
+        <input type="file" name="file" multiple />
+      </label>
+      <input type="hidden" name="limit" value="5242880" />
+      <button class="btn">Upload</button>
+    </form>
+
+    <div class="ajax-error"></div>    
+
+  </div>
+  <div class="span4"></div> 
+</div> 
+
+#parse("footer.vm")
