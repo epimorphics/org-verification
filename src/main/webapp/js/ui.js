@@ -2,27 +2,6 @@
 
 $(function() {
 
-    // Set up ajax loading tabs
-    $('.action-tab').bind('show', function(e) {
-        var pattern=/#.+/gi
-        var contentID = e.target.toString().match(pattern)[0];
-        var action = $(contentID).attr('data-action');
-        var uri = $(contentID).attr('data-uri');
-        if (action) {
-          //var url = '$uiroot/' + action +'?uri=$lib.pathEncode($uri)&requestor=$requestor';
-          var url = '/ui/' + action + '?uri=' + uri;
-          var args = $(contentID).attr('data-args');
-          if (args) {
-             url = url + "&" + args;
-          }
-          $(contentID).load(url, function(){
-             $('.action-tab').tab(); //reinitialize tabs
-             $('.datatable').dataTable();
-             processQueryForms();
-           });
-        };
-     });
-
 
     // Anything marked as popinfo will have a popover (data-trigger, data-placement, data-content)
     // enable popups
@@ -55,7 +34,7 @@ $(function() {
         form. ajaxForm({
             success:
                 function(data, status, xhr){
-                    window.location.href = "/" + view + "?upload=" + data;
+                    window.location.href = view + "?upload=" + data;
                 },
 
             error:
@@ -64,12 +43,21 @@ $(function() {
               }
           });
     });
-    
+
     // Action on reporting
     $(".report").click(function(){
-        $.post("/request/save?upload=" + $(this).attr('data-upload'));
+//        $.post("request/save?upload=" + $(this).attr('data-upload'));
+        var href = $(this).attr('href');
+        $.ajax("request/save?upload=" + $(this).attr('data-upload'), {
+            type: "POST",
+            data: "no data",
+            success: function(data, status, xhr){
+                window.location.href = href;
+                }
+        });
+        return false;
     });
-    
+
     // Run QB integrity checks
     $("#qb-result-table").each(function(){
         var body = $(this).find("tbody");
@@ -77,12 +65,12 @@ $(function() {
         var checks = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19a', '19b', '20', '21'];
         var next = function() {
             if (checks.length > 0) {
-                $.getJSON("/request/validate?upload=" + upload + "&check=" + checks.shift(), function(datalist) {
+                $.getJSON("request/validate?upload=" + upload + "&check=" + checks.shift(), function(datalist) {
                     for (var i = 0; i < datalist.length; i++) {
                         var data = datalist[i];
-                        body.append("<tr><td><a href='" + data.url + "'>" + data.ic + "</a></td><td>" + data.description + "</td><td><img src='" 
-                            + (data.passed ? "/img/tick-16.png" : "/img/fail-16.png")
-                            + "' alt='" + + (data.passed ? "passed" : "failed") 
+                        body.append("<tr><td><a href='" + data.url + "'>" + data.ic + "</a></td><td>" + data.description + "</td><td><img src='"
+                            + (data.passed ? "img/tick-16.png" : "img/fail-16.png")
+                            + "' alt='" + + (data.passed ? "passed" : "failed")
                             + "' /></td></tr>");
                         if (!data.passed) {
                             var reportLink = $("#qb-result-report a");

@@ -1,3 +1,4 @@
+#set($pageTitle="Data Cube Validator")
 #parse("header.vm")
 #set($nav="qb-test")
 #parse("navbar.vm")
@@ -17,13 +18,13 @@
     <tbody>
     </tbody>
   </table>
-  
+
   <div class="hide space-above" id="qb-result-report">
-    Completed. Would you like to <a class="report" data-upload="$upload" href="mailto:public-gld-comments@w3.org?subject=[QB] Implementation report&body=I would like report a Data Cube implementation.%0D%0A%0D%0Ahttp://gld01.w3.org/qb-test?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you use any optional terms.">report</a> the results?
+    Completed. Would you like to <a class="report" data-upload="$upload" href="mailto:public-gld-comments@w3.org?subject=[QB] Implementation report&body=I would like report a Data Cube implementation.%0D%0A%0D%0Ahttp://www.w3.org/2011/gld/validator/qb/qb-test?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you use any optional terms.">report</a> the results?
   </div>
 
 #else
-  <p>No data specified, please <a href="upload">upload</a> samples first.</p>
+  <p>No data specified, please <a href="qb-validator">upload</a> samples first.</p>
 #end
 
 

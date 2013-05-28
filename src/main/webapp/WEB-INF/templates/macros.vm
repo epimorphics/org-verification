@@ -2,7 +2,7 @@
 
 ##Report ORG implementation
 #macro(reporthref $upload)
-mailto:public-gld-comments@w3.org?subject=[ORG] Implementation report&body=I would like report an ORG implementation.%0D%0A%0D%0Ahttp://gld01.w3.org/org-view?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you believe your use of ORG conforms to the specification.
+mailto:public-gld-comments@w3.org?subject=[ORG] Implementation report&body=I would like report an ORG implementation.%0D%0A%0D%0Ahttp://www.w3.org/2011/gld/validator/org/org-top-view?upload=$upload%0D%0A%0D%0A--> Please also tell us who you are, about the implementation and whether you believe your use of ORG conforms to the specification.
 #end
 #macro(report $upload)
   <a class="report" data-upload="$upload" href="#reporthref($upload)">report</a>
@@ -32,7 +32,7 @@ mailto:public-gld-comments@w3.org?subject=[ORG] Implementation report&body=I wou
 
 ## Link to an orgnaization
 #macro(linkorg $org, $upload)
-  <a href="/org-view?upload=$upload&uri=$lib.pathEncode($org.uRI)">$org.name</a>
+  <a href="org-view?upload=$upload&uri=$lib.pathEncode($org.uRI)">$org.name</a>
 #end
 
 ## Determine the href value to use in a link to the given resource, reference URIs go external

@@ -2,13 +2,19 @@
 <html lang="en-US">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="1;url=org-upload">
+        <!-- <meta http-equiv="refresh" content="1;url=org-validator">  -->
         <script type="text/javascript">
-            window.location.href = "org-upload"
+           window.onload=function(){
+                if(window.location.href.indexOf("/qb") > -1) {
+                    window.location.href = "qb-validator";
+                } else {
+                    window.location.href = "org-validator";
+                }
+            };
         </script>
         <title>Page Redirection</title>
     </head>
     <body>
-        If you are not redirected automatically, follow the <a href='org-upload'>link</a>
+        If you are not redirected automatically, follow the <a href='org-validator'> or  <a href='qb-validator'> link</a>
     </body>
 </html>

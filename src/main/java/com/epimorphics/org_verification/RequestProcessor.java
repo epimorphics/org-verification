@@ -93,7 +93,7 @@ public class RequestProcessor {
         }
         // Save merge for actual processing
         try {
-            
+
             FileOutputStream out = new FileOutputStream(uploadDir + File.separator + "merge.ttl");
             merge.write(out, FileUtils.langTurtle);
             out.close();
@@ -129,7 +129,7 @@ public class RequestProcessor {
             int len = 0;
             byte[] buf = new byte[1024];
             int n;
-    
+
             while ((n = is.read(buf, 0, buf.length)) >= 0) {
                 os.write( buf, 0, n );
                 len += n;
@@ -156,15 +156,19 @@ public class RequestProcessor {
         try {
             String src = Config.get().getUploadDir(upload);
             String preserve = Config.get().getPreservationDir(upload);
-            FileUtil.ensureDir(preserve);
-            FileUtil.copyDirectory( Paths.get(src), Paths.get( preserve) );
+            if (new File(preserve).exists()) {
+                log.warn("Preservation already exists, not overwriting it");
+            } else {
+                FileUtil.ensureDir(preserve);
+                FileUtil.copyDirectory( Paths.get(src), Paths.get( preserve) );
+            }
             return Response.ok().build();
         } catch (Exception e) {
             log.error("Problem during save", e);
             throw new WebApiException(500, "Internal error - " + e);
         }
     }
-    
+
     /**
      * Run a Data Cube integrity check
      */
