@@ -217,6 +217,7 @@ public class DataCube {
                 }
 //                log.info("Checking obs: " + location);
                 if ( !locations.add(location) ) {
+                    log.info("Found duplicate on " + obs + " at " + location);
                     return false;
                 }
             }
