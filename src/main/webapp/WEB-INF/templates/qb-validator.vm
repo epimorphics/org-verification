@@ -36,7 +36,8 @@
         Choose files:
         <input type="file" name="file" multiple />
       </label>
-      <input type="hidden" name="limit" value="5242880" />
+##      <input type="hidden" name="limit" value="5242880" />
+      <input type="hidden" name="limit" value="15000000" />
       <button class="btn">Upload</button>
     </form>
 
